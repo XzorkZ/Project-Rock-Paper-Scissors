@@ -1,31 +1,65 @@
 // list of strings
 const strings = ['rock', 'paper', 'scissors'];
 
-// computer will choose random string from the list above.
-function getComputerChoice() {
-	const randomIndex = Math.floor(Math.random() * strings.length);
-	const randomString = strings[randomIndex];
-	return randomString;
-}
+// scores
+let computerScore = 0;
+let playerScore = 0;
+let gameRounds = 0;
 
-// Game mode: function will compare 2 selections (in lower case) and return result
-function playRound(playerSelection, computerSelection) {
-	const playerSelectionLowerCase = playerSelection.toLowerCase();
+// play 5 rounds
+while (gameRounds < 5) {
+    // computer will choose random string from the list above.
+    function getComputerChoice() {
+        const randomIndex = Math.floor(Math.random() * strings.length);
+        const randomString = strings[randomIndex];
+        return randomString;
+    }
 
-    if (playerSelectionLowerCase === computerSelection){
-        return "It's Draw!";
+    // Game mode: function will compare 2 selectionsand return result, if input is correct
+    function playRound(playerSelection, computerSelection) {
+        if (playerSelection == false) {
+            return "Wrong Input!";
+        }
+
+        if (playerSelection === computerSelection){
+            return "It's Draw!";
+        }
+        else if ((playerSelection === "rock" && computerSelection === "paper") || 
+                (playerSelection === "paper" && computerSelection === "scissors") || 
+                (playerSelection === "scissors" && computerSelection === "rock")) {
+            computerScore++;
+            return `You lost! ${computerSelection} beats ${playerSelection}.`;
+            
+        }
+        else {
+            playerScore++;
+            return "You Win!";
+        }
     }
-    else if ((playerSelectionLowerCase === "rock" && computerSelection === "paper") || 
-             (playerSelectionLowerCase === "paper" && computerSelection === "scissors") || 
-             (playerSelectionLowerCase === "scissors" && computerSelection === "rock")) {
-        return `You lost! ${computerSelection} beats ${playerSelectionLowerCase}.`;
-    }
-    else {
-        return "You Win!"
-    }
+    gameRounds++;
+
+    // user input, call function, show score
+    const playerSelection = userInput();
+    const computerSelection = getComputerChoice();
+    console.log(playRound(playerSelection, computerSelection));
+    console.log(`computer: ${computerScore}, player: ${playerScore}, Round: ${gameRounds}`);
+
     
+    // User Input (in lower case) and check if it is wrriten correct
+    function userInput() {
+        let playerSelection = prompt('Please choose rock, paper or scissors').toLowerCase();
+        if (playerSelection === "rock" || playerSelection === "paper" || playerSelection === "scissors") {
+            return playerSelection;
+        }
+        else {
+            return false;
+        }    
+    }
 }
 
-const playerSelection = "ROCK";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+
+
+
+
+
+
